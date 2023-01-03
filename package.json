@@ -1,23 +1,16 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/asimbyazid/node.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/asimbyazid/node/issues"
-  },
-  "homepage": "https://github.com/asimbyazid/node#readme",
-  "keywords": [],
-  "description": "",
   "dependencies": {
+    "express": "^4.18.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
