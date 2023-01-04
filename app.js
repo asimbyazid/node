@@ -21,7 +21,12 @@ app.use(express.static('public'))
 app.get('/',(req,res)=>{
 	//sendfile is for loading normal html pages
 	//res.sendFile('./views/index.html',{root:__dirname})
-	res.render('index',{title:'Home Page'})
+	const blogs =[
+		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'},
+		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'},
+		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'}
+	];
+	res.render('index',{title:'Home Page',blogs:blogs})
 });
 
 app.get('/about',(req,res)=>{
