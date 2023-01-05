@@ -1,27 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<title>Welcome to Nightowl Technology | <%= title %></title>
-	<link rel="stylesheet" href="/styles.css">
+    <%- include('./partials/head') %>
 
-</head>
 <body>
-    <nav>
-        <div class="site-title">
-    <a href="/"><h1>Nightowl Technology</h1></a>
-    <p>This is our blog site</p>
-    </div>
-    
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About us</a></li>
-        <li><a href="/blogs/create/">New Blog</a></li>
-    </nav>
+    <%- include('./partials/nav') %>
 
 <div class="not-found content"> 
     <h2>OOPS, page not found :(</h2>
 </div>
+<%- include('./partials/footer') %>
 
 </body>
 </html>

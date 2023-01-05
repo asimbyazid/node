@@ -1,5 +1,15 @@
 const express = require('express')
 const morgan = require('morgan')
+const mongoose = require('mongoose')
+//connect to mongodb
+const dbURI = "mongodb+srv://nightowl:nightowl123@cluster0.mdkzepd.mongodb.net/?retryWrites=true&w=majority"
+mongoose.set('strictQuery', false);
+mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
+.then((result) => {
+	console.log('connected to db')
+	app.listen(3000)
+})
+.catch((err) => console.log(err))
 
 //express app
 const app = express();
@@ -10,7 +20,7 @@ app.set('view engine','ejs')
 
 
 //listen for request
-app.listen(3000)
+//app.listen(3000)
 
 //  logger middleware
 app.use(morgan('tiny')); //'tiny' or 'dev'
