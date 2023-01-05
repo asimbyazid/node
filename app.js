@@ -1,8 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+const Blog = require('./models/blog')
+
 //connect to mongodb
-const dbURI = "mongodb+srv://nightowl:nightowl123@cluster0.mdkzepd.mongodb.net/?retryWrites=true&w=majority"
+const dbURI = "mongodb+srv://nightowl:nightowl123@cluster0.mdkzepd.mongodb.net/node-tuts?retryWrites=true&w=majority"
 mongoose.set('strictQuery', false);
 mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
 .then((result) => {
@@ -19,7 +21,7 @@ app.set('view engine','ejs')
 
 
 
-//listen for request
+//listen for request //we 
 //app.listen(3000)
 
 //  logger middleware
@@ -28,21 +30,66 @@ app.use(morgan('tiny')); //'tiny' or 'dev'
 //middleware and static files
 app.use(express.static('public'))
 
+//mongoose and mongo sandbox routes
+/*app.get('/add-blog',(req,res)=>{
+	const blog = new Blog({
+		title:'new blog 2',
+		snippet:'About my new blog',
+		body:'More about my new blog'
+	})
+
+	blog.save()
+		.then((result)=>{
+			res.send(result)
+		})
+		.catch((err) => console.log(err))
+})
+
+app.get('/all-blogs',(req,res)=>{
+	Blog.find()
+		.then((result)=>{
+			res.send(result)
+		})
+		.catch((err) =>{console.log("Error message",err)
+	})
+})
+
+app.get('/single-blog',(req,res)=>{
+	Blog.findById('63b6a123363d069a07ac6b31')
+		.then((result)=>{
+			res.send(result)
+		})
+		.catch((err) =>{console.log("Error message",err)
+	})
+})
+*/
 app.get('/',(req,res)=>{
 	//sendfile is for loading normal html pages
 	//res.sendFile('./views/index.html',{root:__dirname})
-	const blogs =[
+	/*const blogs =[
 		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'},
 		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'},
 		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'}
 	];
 	res.render('index',{title:'Home Page',blogs:blogs})
+	*/
+	res.redirect('/blogs')
 });
 
 app.get('/about',(req,res)=>{
 	//res.sendFile('./views/about.html',{root:__dirname})
 	res.render('about',{title:'About us'})
 });
+
+//Blog routes
+app.get('/blogs',(req,res)=>{
+	Blog.find().sort({createdAt:-1})
+	.then((result)=>{
+		res.render('index',{title:'All Blogs',blogs:result})
+	})
+	.catch((err) =>{console.log("Error message",err)
+})
+})
 
 app.get('/blogs/create',(req,res)=>{
 	//res.sendFile('./views/about.html',{root:__dirname})
