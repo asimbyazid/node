@@ -30,6 +30,9 @@ app.use(morgan('tiny')); //'tiny' or 'dev'
 //middleware and static files
 app.use(express.static('public'))
 
+//middleware that allows you to access form input/entries
+app.use(express.urlencoded({extended:true}))
+
 //mongoose and mongo sandbox routes
 /*app.get('/add-blog',(req,res)=>{
 	const blog = new Blog({
@@ -96,11 +99,27 @@ app.get('/blogs/create',(req,res)=>{
 	res.render('create',{title:'Registration Page'})
 });
 
-//redirect
-// app.get('/about-me',(req,res)=>{
-// 	res.redirect('/about')
-// });
+//post data inputed from the forms to the database
+app.post('/blogs',(req,res)=>{
+	console.log('This: ',req.body)
+	const blog = new Blog(req.body)
+	 blog.save()
+		.then((result)=> {
+			res.redirect('/blogs')//redirected to homepage
+		})
+		.catch((err)=>{ console.log(err)})
+});
 
+app.get('/blogs/:id',(req,res)=>{
+	const id = req.params.id
+	console.log(id)
+
+	Blog.findById(id)
+	.then((result)=> {
+		 res.render('single-view',{blog:result,title:'Blog Details'})//render to single view page
+	})
+	.catch((err)=>{ console.log(err)})
+})
 
 //404 middleware / it is synchoronous
 //Position matters alot
