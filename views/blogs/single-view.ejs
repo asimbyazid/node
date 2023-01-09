@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <%- include('../partials/head') %>
+
+<body>
+    <%- include('../partials/nav') %>
+
+<div class="details content"> 
+    <h2><%= blog.title%></h2>
+    <div class="content">
+        <p><%= blog.body%></p>
+    </div>
+
+    <a class="delete" data-doc="<%= blog._id%>">delete</a>
+</div>
+<%- include('../partials/footer') %>
+<script>
+    //grab id from the a class
+    const trashcan = document.querySelector('a.delete');// 'a' refer to the hyperlink tag
+    //this will listen to a click event
+    trashcan.addEventListener('click',(e)=>{
+        const endpoint = `/blogs/${trashcan.dataset.doc}`;
+        //send a delete request to the end point
+    fetch(endpoint,{
+            method: 'DELETE',
+        })
+     
+    .then((response) => response.json())
+    .then(data => window.location.href = data.redirect)
+    .catch(err => console.log(err));
+});
+</script>
+</body>
+</html>

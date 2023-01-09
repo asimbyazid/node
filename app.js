@@ -1,7 +1,8 @@
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog')
+const blogRoutes =require('./routes/blogRoutes')
+
 
 //connect to mongodb
 const dbURI = "mongodb+srv://nightowl:nightowl123@cluster0.mdkzepd.mongodb.net/node-tuts?retryWrites=true&w=majority"
@@ -19,8 +20,6 @@ const app = express();
 //register view engine
 app.set('view engine','ejs')
 
-
-
 //listen for request //we 
 //app.listen(3000)
 
@@ -33,49 +32,9 @@ app.use(express.static('public'))
 //middleware that allows you to access form input/entries
 app.use(express.urlencoded({extended:true}))
 
-//mongoose and mongo sandbox routes
-/*app.get('/add-blog',(req,res)=>{
-	const blog = new Blog({
-		title:'new blog 2',
-		snippet:'About my new blog',
-		body:'More about my new blog'
-	})
 
-	blog.save()
-		.then((result)=>{
-			res.send(result)
-		})
-		.catch((err) => console.log(err))
-})
-
-app.get('/all-blogs',(req,res)=>{
-	Blog.find()
-		.then((result)=>{
-			res.send(result)
-		})
-		.catch((err) =>{console.log("Error message",err)
-	})
-})
-
-app.get('/single-blog',(req,res)=>{
-	Blog.findById('63b6a123363d069a07ac6b31')
-		.then((result)=>{
-			res.send(result)
-		})
-		.catch((err) =>{console.log("Error message",err)
-	})
-})
-*/
 app.get('/',(req,res)=>{
-	//sendfile is for loading normal html pages
-	//res.sendFile('./views/index.html',{root:__dirname})
-	/*const blogs =[
-		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'},
-		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'},
-		{title: 'Yoshi finds egss',snippet: 'lorem ipsum'}
-	];
-	res.render('index',{title:'Home Page',blogs:blogs})
-	*/
+	
 	res.redirect('/blogs')
 });
 
@@ -85,41 +44,7 @@ app.get('/about',(req,res)=>{
 });
 
 //Blog routes
-app.get('/blogs',(req,res)=>{
-	Blog.find().sort({createdAt:-1})
-	.then((result)=>{
-		res.render('index',{title:'All Blogs',blogs:result})
-	})
-	.catch((err) =>{console.log("Error message",err)
-})
-})
-
-app.get('/blogs/create',(req,res)=>{
-	//res.sendFile('./views/about.html',{root:__dirname})
-	res.render('create',{title:'Registration Page'})
-});
-
-//post data inputed from the forms to the database
-app.post('/blogs',(req,res)=>{
-	console.log('This: ',req.body)
-	const blog = new Blog(req.body)
-	 blog.save()
-		.then((result)=> {
-			res.redirect('/blogs')//redirected to homepage
-		})
-		.catch((err)=>{ console.log(err)})
-});
-
-app.get('/blogs/:id',(req,res)=>{
-	const id = req.params.id
-	console.log(id)
-
-	Blog.findById(id)
-	.then((result)=> {
-		 res.render('single-view',{blog:result,title:'Blog Details'})//render to single view page
-	})
-	.catch((err)=>{ console.log(err)})
-})
+app.use('/blogs',blogRoutes)
 
 //404 middleware / it is synchoronous
 //Position matters alot

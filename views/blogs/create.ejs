@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html>
-    <%- include('./partials/head') %>
+    <%- include('../partials/head') %>
 
 <body>
-<nav>
-    <div class="site-title">
-<a href="/"><h1>Nightowl Technology</h1></a>
-<p>This is our blog site</p>
-</div>
+    <%- include('../partials/nav') %>
 
-	<li><a href="/">Home</a></li>
-	<li><a href="/about">About us</a></li>
-	<li><a href="/blogs/create/">New Blog</a></li>
-</nav>
 
 <div class="create-blog content"> 
     <form action="/blogs" method="POST">
@@ -29,7 +21,7 @@
         <button>Submit</button>
     </form>
 </div>
-<%- include('./partials/footer') %>
+<%- include('../partials/footer') %>
 
 </body>
 </html>
